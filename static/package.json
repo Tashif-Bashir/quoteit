@@ -1,0 +1,4 @@
+{
+  "type": "module",
+  "comment": "Marks static/*.js as ES modules for Node (used by the pricing acceptance test). Browsers ignore this file; static/pricing.js is loaded via <script type=module>."
+}

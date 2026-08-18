@@ -1,0 +1,1028 @@
+/* QuoteIt v1 prototype — design system tokens (owner-approved "industrial") */
+:root {
+  --ground: #ffffff;
+  --ink: #1a1a1a;
+  --panel: #f5f5f5;
+  --border: #e5e5e5;
+  --border-width: 1.5px;
+  --radius: 12px;
+  --text-secondary: #555555;
+  --accent: #ff0403; /* Trust brand red (owner-confirmed 18 Aug — the site/print red, NOT the old #c0392b) */
+  --accent-tint: #ffeceb;
+  --green: #166534;
+  --red: #7f1d1d; /* validation only — darker so it reads distinct from the brand red */
+  --font: "Archivo", -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--panel);
+  color: var(--ink);
+  font-family: var(--font);
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+}
+
+#app {
+  max-width: 390px;
+  margin: 0 auto;
+  min-height: 100vh;
+  background: var(--ground);
+  position: relative;
+}
+
+@media (min-width: 480px) {
+  #app {
+    margin: 24px auto;
+    min-height: calc(100vh - 48px);
+    border-radius: var(--radius);
+    border: var(--border-width) solid var(--border);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+  }
+}
+
+.screen {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  padding-bottom: 32px;
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  /* extra top padding clears the corner strip (brand mark top-left,
+     reset/sign-out links top-right) so titles never collide with it */
+  padding: 34px 16px 14px;
+  border-bottom: var(--border-width) solid var(--border);
+}
+
+.header-back {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: var(--border-width) solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ground);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.header-titles {
+  flex: 1;
+  min-width: 0;
+}
+
+.header-title {
+  font-weight: 700;
+  font-size: 20px;
+  margin: 0;
+}
+
+.header-sub {
+  font-weight: 500;
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.chip {
+  flex-shrink: 0;
+  font-weight: 600;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-secondary);
+  background: var(--panel);
+  border: var(--border-width) solid var(--border);
+  border-radius: 999px;
+  padding: 6px 12px;
+  white-space: nowrap;
+}
+
+/* Body content */
+.body {
+  padding: 16px;
+  flex: 1;
+}
+
+.section-label {
+  font-weight: 600;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-secondary);
+  margin: 0 0 8px;
+}
+
+/* Inputs */
+.field {
+  margin-bottom: 16px;
+}
+
+.field label {
+  display: block;
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.field input[type="text"],
+.field input[type="password"],
+.field input[type="number"] {
+  width: 100%;
+  font-family: var(--font);
+  font-size: 15px;
+  font-weight: 500;
+  padding: 14px;
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--ground);
+  color: var(--ink);
+}
+
+.field input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.dim-cards {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.dim-card {
+  flex: 1;
+  min-width: 100px;
+}
+
+.volume-line {
+  font-weight: 700;
+  font-size: 17px;
+  margin: 16px 0;
+}
+
+/* Card / option card */
+.card {
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 12px;
+  background: var(--ground);
+  cursor: pointer;
+}
+
+.card.selected {
+  border: 2px solid var(--accent);
+  background: var(--accent-tint);
+}
+
+.card.dashed {
+  border-style: dashed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--accent);
+  cursor: pointer;
+}
+
+.factor-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.factor-badge {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--panel);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 17px;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+.factor-card.selected .factor-badge {
+  background: var(--accent);
+  color: #fff;
+}
+
+.factor-title {
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.factor-sub {
+  font-weight: 400;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+/* Hero numbers */
+.hero {
+  text-align: center;
+  padding: 32px 16px;
+}
+
+.hero-number {
+  font-weight: 900;
+  font-size: 64px;
+  color: var(--accent);
+  line-height: 1;
+}
+
+.hero-unit {
+  font-weight: 900;
+  font-size: 28px;
+  color: var(--accent);
+  margin-left: 4px;
+}
+
+.hero-caption {
+  font-weight: 500;
+  font-size: 15px;
+  margin-top: 8px;
+}
+
+.hero-advisory {
+  font-weight: 400;
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+/* Room cards (hub) */
+.room-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 12px;
+  background: var(--ground);
+  cursor: pointer;
+}
+
+.room-card-name {
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.room-card-sub {
+  font-weight: 400;
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+.room-card-badge {
+  display: inline-block;
+  margin-top: 6px;
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--text-secondary);
+  background: var(--panel);
+  border-radius: 999px;
+  padding: 3px 10px;
+}
+
+.room-card-kw {
+  font-weight: 700;
+  font-size: 22px;
+  color: var(--ink);
+  white-space: nowrap;
+  margin-left: 12px;
+}
+
+.panel-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--panel);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-top: 8px;
+}
+
+.panel-strip .house-total-kw {
+  font-weight: 900;
+  font-size: 24px;
+  color: var(--accent);
+}
+
+/* Family tabs */
+.tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.tab {
+  font-weight: 700;
+  font-size: 13px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: var(--border-width) solid var(--border);
+  background: var(--ground);
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.tab.selected {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+/* Coverage strip */
+.coverage-strip {
+  text-align: center;
+  padding: 20px 16px;
+  background: var(--panel);
+  border-radius: var(--radius);
+  margin-bottom: 16px;
+}
+
+.coverage-value {
+  font-weight: 900;
+  font-size: 32px;
+}
+
+.coverage-value.covered {
+  color: var(--green);
+}
+
+.coverage-sub {
+  font-weight: 500;
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+/* Model rows */
+.model-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: var(--border-width) solid var(--border);
+  padding: 14px 0;
+}
+
+.model-row:last-child {
+  border-bottom: none;
+}
+
+.model-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.model-code {
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.model-sub {
+  font-weight: 400;
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+.model-price {
+  font-weight: 700;
+  font-size: 15px;
+  white-space: nowrap;
+}
+
+.stepper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.stepper-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: var(--border-width) solid var(--border);
+  background: var(--ground);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.stepper.active .stepper-btn,
+.stepper.active .stepper-qty {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.stepper-qty {
+  min-width: 20px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.add-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: var(--border-width) solid var(--border);
+  background: var(--ground);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--text-secondary);
+}
+
+/* Estimate screen */
+.estimate-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+  font-size: 15px;
+  font-weight: 500;
+  gap: 12px;
+}
+
+.estimate-line-label {
+  flex: 1;
+  min-width: 0;
+}
+
+.estimate-line-price {
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.estimate-line.discount .estimate-line-price {
+  color: var(--green);
+}
+
+.estimate-line.included .estimate-line-price {
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.divider {
+  border: none;
+  border-top: var(--border-width) solid var(--border);
+  margin: 16px 0;
+}
+
+.total-hero {
+  text-align: center;
+  padding: 16px;
+}
+
+.total-hero-label {
+  font-weight: 600;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-secondary);
+}
+
+.total-hero-value {
+  font-weight: 900;
+  font-size: 40px;
+  color: var(--accent);
+  margin-top: 4px;
+}
+
+.no-vat-note {
+  font-weight: 400;
+  font-size: 13px;
+  color: var(--text-secondary);
+  text-align: center;
+  margin-top: 4px;
+}
+
+.deposit-options {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.deposit-card {
+  flex: 1;
+  min-width: 100px;
+  text-align: center;
+}
+
+.deposit-card-label {
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.deposit-card-value {
+  font-weight: 700;
+  font-size: 17px;
+  margin-top: 4px;
+}
+
+.deposit-full {
+  width: 100%;
+  margin-top: 8px;
+  text-align: center;
+}
+
+.balance-line {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+  font-size: 15px;
+  margin-top: 12px;
+}
+
+/* NHS toggle */
+.toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+}
+
+.toggle {
+  width: 44px;
+  height: 26px;
+  border-radius: 999px;
+  background: var(--border);
+  position: relative;
+  cursor: pointer;
+  border: none;
+  flex-shrink: 0;
+}
+
+.toggle.on {
+  background: var(--green);
+}
+
+.toggle-knob {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  transition: left 0.15s ease;
+}
+
+.toggle.on .toggle-knob {
+  left: 21px;
+}
+
+/* Buttons */
+.btn {
+  display: block;
+  width: 100%;
+  font-family: var(--font);
+  font-weight: 700;
+  font-size: 17px;
+  padding: 16px;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--accent);
+  font-size: 16px;
+  padding: 12px;
+}
+
+.btn-row {
+  padding: 16px;
+  border-top: var(--border-width) solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.qty-input {
+  width: 48px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 15px;
+  border: var(--border-width) solid var(--border);
+  border-radius: 8px;
+  padding: 4px;
+  font-family: var(--font);
+}
+
+.top-links {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Brand wordmark — shared by the sign-in screen (animated) and the app
+   header (static, via .brand-logo-static). Sizing is context-specific. */
+.brand-logo {
+  display: block;
+  overflow: visible;
+  width: 100%;
+  height: auto;
+}
+
+.login-logo {
+  display: flex;
+  justify-content: center;
+  padding: 32px 16px 8px;
+}
+
+.login-logo .brand-logo {
+  max-width: 340px;
+}
+
+.brand-mark {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 10;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  display: block;
+}
+
+.reset-link {
+  font-size: 11px;
+  color: var(--text-secondary);
+  text-decoration: underline;
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+.field-error {
+  font-weight: 500;
+  font-size: 13px;
+  color: var(--red);
+  margin: -8px 0 16px;
+}
+
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--ink);
+  color: #fff;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 12px 20px;
+  border-radius: 999px;
+  z-index: 100;
+}
+
+.stub-screen {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 32px;
+  gap: 12px;
+}
+
+.stub-screen h2 {
+  font-weight: 700;
+  font-size: 20px;
+  margin: 0;
+}
+
+.stub-screen p {
+  font-weight: 400;
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* Bottom tab bar */
+.tab-content {
+  padding-bottom: 64px; /* clears the fixed tab bar */
+}
+
+.tab-bar {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 390px;
+  display: flex;
+  background: var(--ground);
+  border-top: var(--border-width) solid var(--border);
+  z-index: 20;
+}
+
+.tab-bar-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 10px 4px 12px;
+  cursor: pointer;
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 11px;
+  text-align: center;
+}
+
+.tab-bar-item.selected {
+  color: var(--accent);
+}
+
+/* Appointment cards */
+.appt-card {
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 12px;
+  background: var(--ground);
+  cursor: pointer;
+}
+
+.appt-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.appt-card-time {
+  font-weight: 900;
+  font-size: 22px;
+}
+
+.appt-card-date {
+  display: inline-block;
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-right: 8px;
+  vertical-align: 3px;
+}
+
+.appt-card-name {
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.appt-card-sub {
+  font-weight: 400;
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+  margin-bottom: 8px;
+}
+
+/* Status chip */
+.status-chip {
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-radius: 999px;
+  padding: 4px 10px;
+}
+
+.status-chip.status-active {
+  background: var(--accent-tint);
+  color: var(--accent);
+}
+
+.status-chip.status-cancelled {
+  background: var(--panel);
+  color: var(--red);
+}
+
+/* Phone tap-to-reveal */
+.phone-reveal {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+  font-size: 13px;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.phone-reveal-label {
+  font-weight: 600;
+}
+
+.phone-reveal-value {
+  color: var(--ink);
+}
+
+.phone-reveal-link {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* Modal (in-app confirm — native dialogs are never used) */
+.modal-scrim {
+  position: fixed;
+  inset: 0;
+  background: rgba(26, 26, 26, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 24px;
+}
+
+.modal-card {
+  background: var(--ground);
+  border-radius: var(--radius);
+  padding: 24px 20px;
+  max-width: 340px;
+  width: 100%;
+}
+
+.modal-title {
+  font-weight: 700;
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+
+.modal-text {
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 1.45;
+  color: var(--text-secondary);
+  margin: 0 0 20px;
+}
+
+.modal-card .btn {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.quote-locked-note {
+  width: 100%;
+  text-align: center;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--text-secondary);
+  background: var(--panel);
+  border-radius: var(--radius);
+  padding: 16px;
+}
+
+/* Signature screen — customer acceptance step */
+.disclaimer-checkbox-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: var(--accent-tint);
+  border: var(--border-width) solid var(--accent);
+  border-radius: var(--radius);
+  padding: 14px;
+  margin-bottom: 16px;
+}
+
+.disclaimer-checkbox-row input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  margin-top: 1px;
+  accent-color: var(--accent);
+}
+
+.disclaimer-checkbox-row label {
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--ink);
+}
+
+.disclaimer-bullets {
+  margin: 0 0 16px;
+  padding-left: 18px;
+  font-weight: 400;
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.disclaimer-bullets li {
+  margin-bottom: 6px;
+}
+
+.signature-canvas {
+  display: block;
+  width: 100%;
+  height: 180px;
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--ground);
+  touch-action: none; /* stops touch-drag scrolling the page while signing */
+}
+
+.signature-clear-btn {
+  display: inline-block;
+  margin-top: 8px;
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--accent);
+  background: var(--accent-tint);
+  border: none;
+  border-radius: 8px;
+  padding: 8px 14px;
+  cursor: pointer;
+}
+
+.signature-footer {
+  text-align: center;
+  font-weight: 400;
+  font-size: 12px;
+  color: var(--text-secondary);
+  padding: 0 16px 16px;
+  margin: 0;
+}
+
+.signature-image {
+  display: block;
+  max-width: 100%;
+  height: 80px;
+  object-fit: contain;
+  border: var(--border-width) solid var(--border);
+  border-radius: 8px;
+  background: #fff;
+  margin-bottom: 12px;
+}
+
+.badge-signed {
+  color: var(--accent);
+  background: var(--accent-tint);
+}
+
+/* Small chip row inside a list card (My quotes: payment choice + room count) */
+.badge-row {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+
+.badge-row .room-card-badge {
+  margin-top: 0;
+}

@@ -1,0 +1,641 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>QuoteIt — animated logo preview</title>
+<link rel="icon" type="image/png" sizes="32x32" href="/static/icons/icon-32.png">
+<link rel="apple-touch-icon" href="/static/icons/icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;900&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --red: #ff0403;      /* THE Trust red — owner-confirmed, site/print red */
+    --red-deep: #b50302; /* darker shade of the same red, for details on the tile */
+    --muted: #8a8a8a;
+    --border: #e5e5e5;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: #ffffff;
+    color: var(--ink);
+    font-family: "Archivo", -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+  body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 24px;
+    -webkit-font-smoothing: antialiased;
+  }
+  main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+    width: 100%;
+    max-width: 900px;
+  }
+  .hero-wrap { width: 100%; display: flex; justify-content: center; }
+  .logo-svg { display: block; height: auto; overflow: visible; }
+  #hero-svg { width: min(600px, 90vw); }
+
+  #replay-btn {
+    appearance: none;
+    border: 1.5px solid var(--border);
+    background: #ffffff;
+    color: var(--muted);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    padding: 8px 18px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+  #replay-btn:hover { color: var(--ink); border-color: #cfcfcf; }
+  #replay-btn:active { transform: translateY(1px); }
+
+  .scale-row {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    padding-top: 12px;
+    border-top: 1.5px solid var(--border);
+    width: 100%;
+  }
+  .scale-item { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .scale-item span {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+<main>
+  <div class="hero-wrap">
+    <svg id="hero-svg" class="logo-svg" viewBox="0 0 700 300" xmlns="http://www.w3.org/2000/svg"></svg>
+  </div>
+
+  <button id="replay-btn" type="button">Replay</button>
+
+  <div class="scale-row">
+    <div class="scale-item">
+      <svg class="logo-svg static-mini" viewBox="0 0 700 300" xmlns="http://www.w3.org/2000/svg" style="width:300px"></svg>
+      <span>300px</span>
+    </div>
+    <div class="scale-item">
+      <svg class="logo-svg static-mini" viewBox="0 0 700 300" xmlns="http://www.w3.org/2000/svg" style="width:160px"></svg>
+      <span>160px</span>
+    </div>
+    <div class="scale-item">
+      <svg class="logo-svg static-mini" viewBox="0 0 700 300" xmlns="http://www.w3.org/2000/svg" style="width:80px"></svg>
+      <span>80px</span>
+    </div>
+  </div>
+
+  <div class="scale-row" id="icon-row">
+    <div class="scale-item">
+      <div class="icon-slot" data-finish="flat" style="width:120px;height:120px"></div>
+      <span>Flat</span>
+    </div>
+    <div class="scale-item">
+      <div class="icon-slot" data-finish="glass" style="width:120px;height:120px"></div>
+      <span>Glass · black Q</span>
+    </div>
+    <div class="scale-item">
+      <div class="icon-slot" data-finish="glass-light" style="width:120px;height:120px"></div>
+      <span>Glass · white Q</span>
+    </div>
+    <div class="scale-item">
+      <div class="icon-slot" data-finish="glass" style="width:48px;height:48px"></div>
+      <span>48px</span>
+    </div>
+    <div class="scale-item">
+      <div class="icon-slot" data-finish="glass" style="width:24px;height:24px"></div>
+      <span>24px</span>
+    </div>
+  </div>
+
+  <div class="scale-row" id="sketch-row">
+    <div class="scale-item">
+      <div class="icon-slot" data-finish="sketch" style="width:120px;height:120px"></div>
+      <span>Sketch · paper</span>
+    </div>
+    <div class="scale-item">
+      <div class="icon-slot" data-finish="sketch-red" style="width:120px;height:120px"></div>
+      <span>Sketch · red</span>
+    </div>
+    <div class="scale-item">
+      <div class="icon-slot" data-finish="sketch" style="width:48px;height:48px"></div>
+      <span>48px</span>
+    </div>
+    <div class="scale-item">
+      <div class="icon-slot" data-finish="sketch-red" style="width:48px;height:48px"></div>
+      <span>48px</span>
+    </div>
+    <div class="scale-item">
+      <div class="icon-slot" data-finish="sketch" style="width:24px;height:24px"></div>
+      <span>24px</span>
+    </div>
+  </div>
+
+  <div class="scale-row" id="threed-row">
+    <div class="scale-item">
+      <div class="icon-slot" data-finish="3d" style="width:120px;height:120px"></div>
+      <span>3D</span>
+    </div>
+    <div class="scale-item">
+      <div class="icon-slot" data-finish="3d" style="width:48px;height:48px"></div>
+      <span>48px</span>
+    </div>
+    <div class="scale-item">
+      <div class="icon-slot" data-finish="3d" style="width:24px;height:24px"></div>
+      <span>24px</span>
+    </div>
+  </div>
+</main>
+
+<script>
+(function () {
+  "use strict";
+
+  // ================= brand =================
+  var INK = "#1a1a1a";
+  var RED = "#ff0403";       // THE Trust red — solid, never translucent
+  var RED_DEEP = "#b50302";  // detail shade on the red tile
+
+  // ================= wordmark geometry (viewBox 0 0 700 300) =================
+  var TEXT_X = 24;
+  var TEXT_Y = 210;
+  var FONT_SIZE = 170;
+  // one confident hand stroke, left→right, light upward flick at the end
+  var SWOOSH_D = "M 22 240 C 150 262, 330 262, 470 234 C 535 220, 580 212, 618 192";
+
+  function wordmarkMarkup() {
+    return (
+      '<text class="wordmark" x="' + TEXT_X + '" y="' + TEXT_Y + '" ' +
+      'font-family="Archivo, -apple-system, BlinkMacSystemFont, sans-serif" ' +
+      'font-weight="900" font-size="' + FONT_SIZE + '">' +
+        '<tspan class="capq" fill="' + INK + '">Q</tspan>' +
+        '<tspan fill="' + INK + '">uote</tspan>' +
+        '<tspan class="islot" fill="none" dx="16">I</tspan>' +
+        '<tspan fill="' + RED + '" dx="10">t</tspan>' +
+      '</text>' +
+      '<path class="swoosh" d="' + SWOOSH_D + '" fill="none" stroke="' + RED + '" ' +
+        'stroke-width="9.5" stroke-linecap="round" stroke-linejoin="round"></path>' +
+      '<g class="pen-group" opacity="0">' +
+        '<path class="pen-body" fill="' + RED + '"></path>' +
+        '<rect class="pen-clip" fill="' + INK + '" opacity="0.85"></rect>' +
+        '<circle class="pen-tip" fill="' + INK + '"></circle>' +
+      '</g>'
+    );
+  }
+
+  // ================= pen shape =================
+  // slim straight ballpoint drawn nib-at-origin pointing +x: parallel barrel,
+  // crisp conical nib, flat stepped cap band, clip notch — no curves so it
+  // stays sharp at favicon sizes
+  function buildPenPathD(len, w) {
+    var nibBaseX = -len * 0.16;
+    var shoulderX = -len * 0.86;
+    var tailX = -len;
+    var shaftHalf = w * 0.5;
+    var capHalf = shaftHalf * 0.82;
+    return (
+      "M0,0" +
+      " L" + nibBaseX + "," + -shaftHalf +
+      " L" + shoulderX + "," + -shaftHalf +
+      " L" + shoulderX + "," + -capHalf +
+      " L" + tailX + "," + -capHalf +
+      " L" + tailX + "," + capHalf +
+      " L" + shoulderX + "," + capHalf +
+      " L" + shoulderX + "," + shaftHalf +
+      " L" + nibBaseX + "," + shaftHalf +
+      " Z"
+    );
+  }
+
+  function buildPenClipRect(len, w) {
+    var shaftHalf = w * 0.5;
+    var capHalf = shaftHalf * 0.82;
+    var x1 = -len * 0.90;
+    var x2 = -len * 0.76;
+    var thickness = w * 0.14;
+    return { x: x1, y: -capHalf - thickness, width: x2 - x1, height: thickness };
+  }
+
+  // ================= timing =================
+  // cubic-bezier(x1,y1,x2,y2) solver — CSS semantics, designer-readable curves.
+  // Timing is separated from mapping: each segment produces a normalized 0-1
+  // progress pushed through one curve, geometry is derived from that.
+  function cubicBezier(x1, y1, x2, y2) {
+    function sampleX(t) {
+      var mt = 1 - t;
+      return 3 * mt * mt * t * x1 + 3 * mt * t * t * x2 + t * t * t;
+    }
+    function sampleY(t) {
+      var mt = 1 - t;
+      return 3 * mt * mt * t * y1 + 3 * mt * t * t * y2 + t * t * t;
+    }
+    return function (x) {
+      if (x <= 0) return 0;
+      if (x >= 1) return 1;
+      var lo = 0, hi = 1, t = x;
+      for (var i = 0; i < 24; i++) {
+        var cx = sampleX(t);
+        if (Math.abs(cx - x) < 0.0005) break;
+        if (cx < x) lo = t; else hi = t;
+        t = (lo + hi) / 2;
+      }
+      return sampleY(t);
+    };
+  }
+
+  var EASE_ENTRANCE = cubicBezier(0.16, 1, 0.3, 1);   // crisp UI entrance
+  var EASE_DRAW = cubicBezier(0.55, 0.06, 0.25, 1);   // bite → sweep → feather off
+  var EASE_FLIGHT = cubicBezier(0.42, 0.05, 0.16, 1); // gentle pick-up → settle
+
+  function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
+
+  function cubicBezierPoint(p0, p1, p2, p3, t) {
+    var mt = 1 - t;
+    var a = mt * mt * mt, b = 3 * mt * mt * t, c = 3 * mt * t * t, d = t * t * t;
+    return {
+      x: a * p0.x + b * p1.x + c * p2.x + d * p3.x,
+      y: a * p0.y + b * p1.y + c * p2.y + d * p3.y
+    };
+  }
+
+  // ================= state =================
+  var heroEl = document.getElementById("hero-svg");
+  var miniEls = Array.prototype.slice.call(document.querySelectorAll(".static-mini"));
+  var allSvgs = [heroEl].concat(miniEls);
+
+  allSvgs.forEach(function (svg) { svg.innerHTML = wordmarkMarkup(); });
+
+  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  var penLen, penW, penD, tipR, finalCx, finalNibY, clipRect;
+
+  // a human hand holds the pen at a FIXED writing tilt for the whole stroke
+  // (nib down-left, barrel up-right); only the nib position tracks the path —
+  // rotating with the tangent is what makes it read as a rocket
+  var WRITE_ANGLE = 140;
+  var FINAL_ANGLE = 90; // nib straight down, standing as the I
+
+  function applyPenShape(svg) {
+    svg.querySelector(".pen-body").setAttribute("d", penD);
+    var clip = svg.querySelector(".pen-clip");
+    clip.setAttribute("x", clipRect.x);
+    clip.setAttribute("y", clipRect.y);
+    clip.setAttribute("width", clipRect.width);
+    clip.setAttribute("height", clipRect.height);
+    svg.querySelector(".pen-tip").setAttribute("r", tipR);
+  }
+
+  function setFinalState(svg) {
+    var text = svg.querySelector(".wordmark");
+    var swoosh = svg.querySelector(".swoosh");
+    var penGroup = svg.querySelector(".pen-group");
+    text.style.opacity = "1";
+    text.style.transform = "translateY(0px)";
+    swoosh.style.strokeDasharray = "none";
+    swoosh.style.strokeDashoffset = "0";
+    penGroup.setAttribute("opacity", "1");
+    penGroup.setAttribute("transform", "translate(" + finalCx + "," + finalNibY + ") rotate(" + FINAL_ANGLE + ")");
+  }
+
+  function setHiddenState(svg) {
+    var text = svg.querySelector(".wordmark");
+    var swoosh = svg.querySelector(".swoosh");
+    var penGroup = svg.querySelector(".pen-group");
+    var len = swoosh.getTotalLength();
+    text.style.opacity = "0";
+    text.style.transform = "translateY(10px)";
+    swoosh.style.strokeDasharray = len;
+    swoosh.style.strokeDashoffset = len;
+    penGroup.setAttribute("opacity", "0");
+  }
+
+  var runId = 0;
+  var rafId = null;
+
+  function playAnimation() {
+    var myRun = ++runId;
+    if (rafId) cancelAnimationFrame(rafId);
+
+    if (reduceMotion) { setFinalState(heroEl); return; }
+
+    setHiddenState(heroEl);
+
+    var text = heroEl.querySelector(".wordmark");
+    var swoosh = heroEl.querySelector(".swoosh");
+    var penGroup = heroEl.querySelector(".pen-group");
+    var totalLen = swoosh.getTotalLength();
+
+    function setPen(x, y, angle) {
+      penGroup.setAttribute("transform", "translate(" + x + "," + y + ") rotate(" + angle + ")");
+    }
+
+    // one continuous timeline, one clock, evaluated per frame
+    // fade 350 | draw 800 (starts at 250, overlapping the fade) | flight 850
+    var D_FADE = 350, D_DRAW = 800, D_FLIGHT = 850;
+    var T_DRAW_START = 250;
+    var T_DRAW_END = T_DRAW_START + D_DRAW;
+    var T_FLIGHT_END = T_DRAW_END + D_FLIGHT;
+
+    // rotation reaches vertical by 75% of the flight — the last stretch is a
+    // pure vertical slide of an already-vertical pen
+    var FLIGHT_ROTATE_FRACTION = 0.75;
+
+    // the whole airborne move is ONE cubic Bézier: C1 pulls up-forward (the
+    // pick-up), C2 sits directly above the slot so the arrival tangent is
+    // exactly vertical — lands dead-on at t=1 by construction, nothing to snap
+    var drawEndPoint = swoosh.getPointAtLength(totalLen);
+    var finalPoint = { x: finalCx, y: finalNibY };
+    var flightC1 = { x: drawEndPoint.x + penLen * 0.10, y: drawEndPoint.y - penLen * 0.60 };
+    var flightC2 = { x: finalPoint.x, y: Math.min(drawEndPoint.y, finalPoint.y) - penLen * 0.42 };
+
+    var start = null;
+
+    function frame(now) {
+      if (myRun !== runId) return;
+      if (start === null) start = now;
+      var elapsed = now - start;
+
+      var fe = EASE_ENTRANCE(Math.min(1, elapsed / D_FADE));
+      text.style.opacity = fe;
+      text.style.transform = "translateY(" + (10 * (1 - fe)) + "px)";
+
+      if (elapsed < T_DRAW_START) {
+        penGroup.setAttribute("opacity", "0");
+      } else if (elapsed <= T_DRAW_END) {
+        penGroup.setAttribute("opacity", "1");
+        var dt = (elapsed - T_DRAW_START) / D_DRAW;
+        var len = EASE_DRAW(dt) * totalLen;
+        swoosh.style.strokeDashoffset = totalLen - len;
+        var pt = swoosh.getPointAtLength(len);
+        // fixed writing tilt + a subtle organic wobble that fades to exactly
+        // zero over the last 10% of the stroke so nothing leaks into flight
+        var wobbleEnvelope = dt < 0.9 ? 1 : Math.max(0, 1 - (dt - 0.9) / 0.1);
+        var angle = WRITE_ANGLE + 3 * Math.sin(dt * Math.PI * 2.6) * wobbleEnvelope;
+        setPen(pt.x, pt.y, angle);
+      } else if (elapsed <= T_FLIGHT_END) {
+        var atT = EASE_FLIGHT((elapsed - T_DRAW_END) / D_FLIGHT);
+        var pos = cubicBezierPoint(drawEndPoint, flightC1, flightC2, finalPoint, atT);
+        var rotT = Math.min(1, atT / FLIGHT_ROTATE_FRACTION);
+        var angle = WRITE_ANGLE + (FINAL_ANGLE - WRITE_ANGLE) * easeOutCubic(rotT);
+        setPen(pos.x, pos.y, angle);
+        if (elapsed >= T_FLIGHT_END) return;
+      } else {
+        setPen(finalPoint.x, finalPoint.y, FINAL_ANGLE);
+        return;
+      }
+
+      rafId = requestAnimationFrame(frame);
+    }
+
+    rafId = requestAnimationFrame(frame);
+  }
+
+  // ================= the QI app icon =================
+  // Q + the pen standing as the I, white on the Trust-red tile. Rendered from
+  // the same pen geometry, measured off the icon's own Q so alignment is exact.
+  var iconUid = 0;
+
+  function renderIcons() {
+    var slots = document.querySelectorAll(".icon-slot");
+    Array.prototype.forEach.call(slots, function (slot) {
+      var finish = slot.getAttribute("data-finish") || "flat";
+      var glass = finish === "glass" || finish === "glass-light";
+      var sketch = finish === "sketch" || finish === "sketch-red";
+      var sketchOnRed = finish === "sketch-red";
+      var threeD = finish === "3d";
+      var qFill = finish === "glass-light" ? "#ffffff" : INK;
+      var uid = ++iconUid;
+
+      var svgNS = "http://www.w3.org/2000/svg";
+      var svg = document.createElementNS(svgNS, "svg");
+      svg.setAttribute("viewBox", "0 0 240 240");
+      svg.setAttribute("width", "100%");
+      svg.setAttribute("height", "100%");
+      svg.style.display = "block";
+      svg.style.borderRadius = "22.5%";
+
+      // glass-matte finish: gradient-lit tile, soft top-left sheen, inner rim
+      // light fading to a shaded base, a whisper of matte grain, and a soft
+      // depth shadow under the mark — all inline SVG, ids namespaced per tile
+      var defs = glass
+        ? '<defs>' +
+            '<linearGradient id="tile' + uid + '" x1="0" y1="0" x2="0.85" y2="1">' +
+              '<stop offset="0" stop-color="#ff4a42"></stop>' +
+              '<stop offset="0.45" stop-color="' + RED + '"></stop>' +
+              '<stop offset="1" stop-color="#d90302"></stop>' +
+            '</linearGradient>' +
+            '<radialGradient id="sheen' + uid + '" cx="0.28" cy="0.12" r="0.9">' +
+              '<stop offset="0" stop-color="#ffffff" stop-opacity="0.32"></stop>' +
+              '<stop offset="0.55" stop-color="#ffffff" stop-opacity="0.06"></stop>' +
+              '<stop offset="1" stop-color="#ffffff" stop-opacity="0"></stop>' +
+            '</radialGradient>' +
+            '<linearGradient id="rim' + uid + '" x1="0" y1="0" x2="0" y2="1">' +
+              '<stop offset="0" stop-color="#ffffff" stop-opacity="0.55"></stop>' +
+              '<stop offset="0.35" stop-color="#ffffff" stop-opacity="0.12"></stop>' +
+              '<stop offset="1" stop-color="#000000" stop-opacity="0.18"></stop>' +
+            '</linearGradient>' +
+            '<filter id="depth' + uid + '" x="-20%" y="-20%" width="140%" height="140%">' +
+              '<feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#000000" flood-opacity="0.22"></feDropShadow>' +
+            '</filter>' +
+            '<filter id="grain' + uid + '">' +
+              '<feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" result="n"></feTurbulence>' +
+              '<feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.05 0"></feColorMatrix>' +
+            '</filter>' +
+          '</defs>'
+        : '';
+
+      // sketch finish: the Q is hand-drawn — stroked outline only, edges
+      // wobbled by a displacement filter, gone over twice like a quick
+      // ballpoint sketch; the pen stays crisp and solid — the one "real"
+      // object among the sketch lines (it's the pen that drew it)
+      if (sketch) {
+        defs =
+          '<defs>' +
+            '<filter id="rough' + uid + '" x="-10%" y="-10%" width="120%" height="120%">' +
+              '<feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves="2" seed="7" result="n"></feTurbulence>' +
+              '<feDisplacementMap in="SourceGraphic" in2="n" scale="7" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap>' +
+            '</filter>' +
+            '<filter id="rough2' + uid + '" x="-10%" y="-10%" width="120%" height="120%">' +
+              '<feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="2" seed="13" result="n"></feTurbulence>' +
+              '<feDisplacementMap in="SourceGraphic" in2="n" scale="8" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap>' +
+            '</filter>' +
+          '</defs>';
+      }
+
+      // 3D finish: softened tile red (full FF0403 is too hot behind a 3D
+      // object), extruded Q (stacked offset side-layers under a gradient
+      // face), pen shaded across the barrel + a grounding shadow
+      if (threeD) {
+        defs =
+          '<defs>' +
+            '<radialGradient id="tile3d' + uid + '" cx="0.5" cy="0.35" r="0.95">' +
+              '<stop offset="0" stop-color="#ff5750"></stop>' +
+              '<stop offset="1" stop-color="#f52c28"></stop>' +
+            '</radialGradient>' +
+            '<linearGradient id="qface' + uid + '" x1="0" y1="0" x2="0" y2="1">' +
+              '<stop offset="0" stop-color="#3a3a3a"></stop>' +
+              '<stop offset="1" stop-color="#0c0c0c"></stop>' +
+            '</linearGradient>' +
+            '<linearGradient id="penface' + uid + '" x1="0" y1="0" x2="0" y2="1">' +
+              '<stop offset="0" stop-color="#ffffff"></stop>' +
+              '<stop offset="1" stop-color="#d9d9d9"></stop>' +
+            '</linearGradient>' +
+            '<filter id="ground' + uid + '" x="-20%" y="-20%" width="140%" height="140%">' +
+              '<feDropShadow dx="3" dy="6" stdDeviation="6" flood-color="#7a0100" flood-opacity="0.45"></feDropShadow>' +
+            '</filter>' +
+          '</defs>';
+      }
+
+      var tileFill = glass ? 'url(#tile' + uid + ')'
+        : threeD ? 'url(#tile3d' + uid + ')'
+        : (sketch && !sketchOnRed ? '#ffffff' : RED);
+      var sketchStroke = sketchOnRed ? '#ffffff' : INK;
+      var penBodyFill = (sketch && !sketchOnRed) ? RED
+        : threeD ? 'url(#penface' + uid + ')'
+        : '#ffffff';
+      var penDetailFill = (sketch && !sketchOnRed) ? INK : RED_DEEP;
+
+      if (sketch && !sketchOnRed) {
+        svg.style.boxShadow = "inset 0 0 0 1.5px #e5e5e5";
+      }
+
+      var qSides = "";
+      if (threeD) {
+        // stacked offset copies build the extrusion, deepest first
+        for (var s = 6; s >= 1; s--) {
+          qSides +=
+            '<text x="' + (s * 1.0) + '" y="' + (178 + s * 1.15) + '" ' +
+            'font-family="Archivo, sans-serif" font-weight="900" font-size="150" ' +
+            'fill="' + (s === 6 ? '#5c0402' : '#8c0705') + '">Q</text>';
+        }
+      }
+
+      var qMarkup = threeD
+        ? qSides +
+          '<text class="icon-q" x="0" y="178" font-family="Archivo, sans-serif" ' +
+            'font-weight="900" font-size="150" fill="url(#qface' + uid + ')">Q</text>'
+        : sketch
+        ? '<g filter="url(#rough' + uid + ')">' +
+            '<text class="icon-q" x="0" y="178" font-family="Archivo, sans-serif" ' +
+              'font-weight="900" font-size="150" fill="none" stroke="' + sketchStroke + '" ' +
+              'stroke-width="5" stroke-linejoin="round">Q</text>' +
+          '</g>' +
+          '<g filter="url(#rough2' + uid + ')" opacity="0.5">' +
+            '<text x="2" y="176.5" font-family="Archivo, sans-serif" ' +
+              'font-weight="900" font-size="150" fill="none" stroke="' + sketchStroke + '" ' +
+              'stroke-width="3" stroke-linejoin="round">Q</text>' +
+          '</g>'
+        : '<text class="icon-q" x="0" y="178" font-family="Archivo, sans-serif" ' +
+            'font-weight="900" font-size="150" fill="' + qFill + '">Q</text>';
+
+      svg.innerHTML =
+        defs +
+        '<rect x="0" y="0" width="240" height="240" fill="' + tileFill + '"></rect>' +
+        (glass
+          ? '<rect x="0" y="0" width="240" height="240" fill="url(#sheen' + uid + ')"></rect>' +
+            '<rect x="0" y="0" width="240" height="240" filter="url(#grain' + uid + ')"></rect>'
+          : '') +
+        '<g class="icon-content"' +
+          (glass ? ' filter="url(#depth' + uid + ')"' : threeD ? ' filter="url(#ground' + uid + ')"' : '') + '>' +
+          qMarkup +
+          '<g class="icon-pen">' +
+            '<path class="icon-pen-body" fill="' + penBodyFill + '"></path>' +
+            '<rect class="icon-pen-clip" fill="' + penDetailFill + '"></rect>' +
+            '<circle class="icon-pen-tip" fill="' + penDetailFill + '"></circle>' +
+          '</g>' +
+        '</g>' +
+        (glass
+          ? '<rect x="2" y="2" width="236" height="236" rx="53" fill="none" ' +
+              'stroke="url(#rim' + uid + ')" stroke-width="3"></rect>'
+          : '');
+
+      slot.appendChild(svg);
+
+      var q = svg.querySelector(".icon-q");
+      var qBox = q.getBBox();
+      // the pen matches the Q's FULL visible height — top edge to tail tip —
+      // measured from the rendered glyph box, so top AND bottom sit level
+      // (nib-on-baseline is right for the wordmark, but in the icon the Q's
+      // tail hangs below the baseline and made the pen look high)
+      var iPenLen = qBox.height;
+      var iPenW = iPenLen * 0.105;
+      var gap = qBox.height * 0.14;
+      var penNibY = qBox.y + qBox.height; // pen bottom = Q's visual bottom
+
+      svg.querySelector(".icon-pen-body").setAttribute("d", buildPenPathD(iPenLen, iPenW));
+      var iClip = buildPenClipRect(iPenLen, iPenW);
+      var clip = svg.querySelector(".icon-pen-clip");
+      clip.setAttribute("x", iClip.x);
+      clip.setAttribute("y", iClip.y);
+      clip.setAttribute("width", iClip.width);
+      clip.setAttribute("height", iClip.height);
+      svg.querySelector(".icon-pen-tip").setAttribute("r", iPenW * 0.16);
+
+      var penCx = qBox.x + qBox.width + gap + iPenW / 2;
+      // inverted: nib points UP — nib sits at the Q's top edge, barrel
+      // hangs down so the pen's foot lands level with the Q's bottom
+      svg.querySelector(".icon-pen").setAttribute(
+        "transform", "translate(" + penCx + "," + qBox.y + ") rotate(-90)"
+      );
+
+      // Q and pen now share the same vertical extent — centre that block
+      var contentW = qBox.width + gap + iPenW;
+      var contentH = qBox.height;
+      var dx = (240 - contentW) / 2 - qBox.x;
+      var dy = (240 - contentH) / 2 - qBox.y;
+      svg.querySelector(".icon-content").setAttribute("transform", "translate(" + dx + "," + dy + ")");
+    });
+  }
+
+  // ================= boot =================
+  function init() {
+    var islot = heroEl.querySelector(".islot");
+    var bbox = islot.getBBox();
+    // height reference = the capital Q's ink box; a hidden glyph's own bbox
+    // over-reports and makes the pen tower over the wordmark
+    var capBox = heroEl.querySelector(".capq").getBBox();
+
+    finalCx = bbox.x + bbox.width / 2;
+    finalNibY = bbox.y + bbox.height;
+
+    penLen = (finalNibY - capBox.y) * 1.02;
+    penW = penLen * 0.11;
+    penD = buildPenPathD(penLen, penW);
+    clipRect = buildPenClipRect(penLen, penW);
+    tipR = penW * 0.16;
+
+    allSvgs.forEach(applyPenShape);
+    miniEls.forEach(setFinalState);
+    renderIcons();
+    playAnimation();
+
+    document.getElementById("replay-btn").addEventListener("click", playAnimation);
+  }
+
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(init);
+  } else {
+    window.addEventListener("load", init);
+  }
+})();
+</script>
+</body>
+</html>
